@@ -1,0 +1,47 @@
+# --- Archivos de entorno y seguridad ---
+.env
+*.env
+*.key
+*.pem
+
+# --- Archivos de entorno Conda/Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+env/
+venv/
+ENV/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+.eggs/
+
+# --- Archivos de configuración local ---
+*.log
+*.sqlite3
+*.db
+.DS_Store
+Thumbs.db
+
+# --- Configuración de VS Code ---
+.vscode/
+.settings/
+
+# --- Archivos temporales ---
+*.tmp
+*.swp
+*.bak
+
+# --- Jupyter Notebooks checkpoints ---
+.ipynb_checkpoints/
+
+# --- Conda ---
+*.conda
+*.lock
+*.yaml  # si generas environment.lock.yaml, pero deja environment.yml si lo quieres compartir
+
+# --- Archivos de sistema ---
+*.~lock*

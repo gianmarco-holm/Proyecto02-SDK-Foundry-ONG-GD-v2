@@ -1,0 +1,13 @@
+# Dependencias para Green Dream RAG Assistant
+# API y servidor web
+flask==3.0.0
+flask-cors==4.0.0
+python-dotenv==1.0.0
+
+# Azure AI Foundry
+azure-ai-inference==1.0.0b4
+azure-core==1.29.5
+
+# Procesamiento de datos
+numpy==1.24.3
+gunicorn>=20.1.0

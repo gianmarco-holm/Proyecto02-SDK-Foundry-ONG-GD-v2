@@ -1,0 +1,68 @@
+[
+  {
+    "id": "revista_001",
+    "titulo": "Green Dream Quarterly - Edición Jóvenes Líderes",
+    "categoria": "Revista Trimestral",
+    "numero": "Vol. 5, No. 2",
+    "fecha_publicacion": "2025-04-01",
+    "editor": "Green Dream Editorial",
+    "resumen": "Edición especial dedicada a jóvenes líderes del movimiento sostenible global y sus iniciativas innovadoras.",
+    "contenido_destacado": [
+      "Entrevista con María Santos, 22 años, fundadora de 'Océanos Limpios'",
+      "Guía: Cómo crear una empresa social sostenible",
+      "Reportaje: Jóvenes reforestando América Latina",
+      "Análisis: Inversión verde y oportunidades para millennials",
+      "Directorio: 50 organizaciones juveniles ambientales"
+    ],
+    "temas_principales": ["liderazgo juvenil", "emprendimiento verde", "conservación", "inversión sostenible"],
+    "paginas": 64,
+    "idiomas": ["Español", "Inglés"],
+    "precio": "Gratuito para miembros",
+    "url": "https://greendream.org/revista/vol5-no2-jovenes-lideres",
+    "descarga_pdf": "https://greendream.org/pdf/revista-vol5-no2.pdf"
+  },
+  {
+    "id": "revista_002",
+    "titulo": "EcoTech Today - Especial Energías del Futuro",
+    "categoria": "Revista Especializada",
+    "numero": "Issue 12",
+    "fecha_publicacion": "2025-03-15",
+    "editor": "Green Dream Tech Division",
+    "resumen": "Revista técnica enfocada en las últimas tecnologías energéticas sostenibles y su impacto en las nuevas generaciones.",
+    "contenido_destacado": [
+      "Hidrógeno verde: La revolución energética que viene",
+      "Casos de estudio: Universidades 100% renovables",
+      "Tutorial: Construye tu panel solar casero",
+      "Entrevista: Joven inventor de turbinas eólicas portátiles",
+      "Comparativa: Mejores apps para monitorear tu huella de carbono"
+    ],
+    "temas_principales": ["hidrógeno verde", "energía solar", "eficiencia energética", "tecnología limpia"],
+    "paginas": 48,
+    "idiomas": ["Español"],
+    "precio": "15 USD",
+    "url": "https://greendream.org/ecotech/issue-12-energias-futuro",
+    "descarga_pdf": "https://greendream.org/pdf/ecotech-issue12.pdf"
+  },
+  {
+    "id": "revista_003",
+    "titulo": "Sostenibilidad Urbana - Ciudades del Mañana",
+    "categoria": "Revista Mensual",
+    "numero": "Año 3, No. 8",
+    "fecha_publicacion": "2025-02-28",
+    "editor": "Green Dream Urban Lab",
+    "resumen": "Exploración de soluciones urbanas sostenibles diseñadas por y para jóvenes en ciudades de América Latina.",
+    "contenido_destacado": [
+      "Bogotá Verde: Proyecto de ciclovías solares liderado por estudiantes",
+      "Agricultura vertical en Lima: Cuando los jóvenes alimentan la ciudad",
+      "Smart cities: Aplicaciones que están transformando México DF",
+      "Movilidad sostenible: E-bikes y scooters eléctricos en Santiago",
+      "Infografía: 10 ciudades más sostenibles de Latinoamérica"
+    ],
+    "temas_principales": ["ciudades inteligentes", "movilidad sostenible", "agricultura urbana", "innovación urbana"],
+    "paginas": 52,
+    "idiomas": ["Español", "Portugués"],
+    "precio": "Gratuito",
+    "url": "https://greendream.org/urbana/ano3-no8-ciudades-manana",
+    "descarga_pdf": "https://greendream.org/pdf/urbana-ano3-no8.pdf"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "articulo_001",
+    "titulo": "10 Acciones Sostenibles que Todo Joven Puede Implementar Hoy",
+    "categoria": "Guías Prácticas",
+    "autor": "Green Dream Research Team",
+    "fecha_publicacion": "2025-01-15",
+    "resumen": "Guía práctica con acciones concretas que los jóvenes pueden tomar para contribuir al desarrollo sostenible desde su vida cotidiana.",
+    "contenido": "El artículo presenta 10 acciones específicas: 1) Reducir el consumo de plástico, 2) Usar transporte sostenible, 3) Implementar compostaje doméstico, 4) Consumir productos locales, 5) Ahorrar energía en casa, 6) Participar en reforestación, 7) Educarse sobre sostenibilidad, 8) Promover la economía circular, 9) Apoyar empresas sostenibles, 10) Crear comunidades verdes.",
+    "tags": ["acciones", "jóvenes", "cotidiano", "práctico", "sostenibilidad"],
+    "publico_objetivo": "Jóvenes 15-30 años",
+    "url": "https://greendream.org/articulos/10-acciones-sostenibles-jovenes",
+    "dificultad": "Fácil",
+    "tiempo_lectura": "8 minutos"
+  },
+  {
+    "id": "articulo_002",
+    "titulo": "El Papel de los Jóvenes en la Crisis Climática: Oportunidades y Desafíos",
+    "categoria": "Investigación",
+    "autor": "Dr. Carlos Mendoza - Green Dream",
+    "fecha_publicacion": "2025-02-20",
+    "resumen": "Análisis profundo sobre cómo los jóvenes pueden liderar el cambio hacia un futuro sostenible y las barreras que enfrentan.",
+    "contenido": "Este artículo examina el rol crucial de los jóvenes en la lucha contra el cambio climático. Analiza casos de éxito como Greta Thunberg y movimientos juveniles globales. Identifica oportunidades en tecnología verde, emprendimiento sostenible y activismo. También aborda desafíos como la falta de recursos, educación limitada y resistencia institucional.",
+    "tags": ["jóvenes", "clima", "liderazgo", "activismo", "cambio"],
+    "publico_objetivo": "Jóvenes, educadores, formuladores de políticas",
+    "url": "https://greendream.org/articulos/jovenes-crisis-climatica",
+    "dificultad": "Intermedio",
+    "tiempo_lectura": "15 minutos"
+  },
+  {
+    "id": "articulo_003",
+    "titulo": "Tecnologías Verdes: Innovaciones que Están Cambiando el Mundo",
+    "categoria": "Tecnología",
+    "autor": "Green Dream Innovation Lab",
+    "fecha_publicacion": "2025-03-10",
+    "resumen": "Exploración de las últimas innovaciones tecnológicas sostenibles y cómo los jóvenes pueden participar en su desarrollo.",
+    "contenido": "El artículo cubre tecnologías emergentes como paneles solares de perovskita, baterías de grafeno, captura de carbono, agricultura de precisión, materiales biodegradables avanzados, y blockchain para sostenibilidad. Incluye ejemplos de startups fundadas por jóvenes y oportunidades de carrera en tecnología verde.",
+    "tags": ["tecnología", "innovación", "verde", "futuro", "carreras"],
+    "publico_objetivo": "Jóvenes interesados en tecnología y ciencia",
+    "url": "https://greendream.org/articulos/tecnologias-verdes-innovaciones",
+    "dificultad": "Intermedio-Avanzado",
+    "tiempo_lectura": "12 minutos"
+  }
+]

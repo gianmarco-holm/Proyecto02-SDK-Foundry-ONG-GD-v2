@@ -1,0 +1,90 @@
+[
+  {
+    "id": "curso_001",
+    "titulo": "Fundamentos de Sostenibilidad para Jóvenes",
+    "categoria": "Introducción",
+    "descripcion": "Curso básico que introduce los conceptos fundamentales del desarrollo sostenible, los ODS de la ONU y su aplicación práctica en la vida cotidiana.",
+    "modalidad": "Online",
+    "duracion": "6 semanas",
+    "nivel": "Principiante",
+    "edad_objetivo": "16-25 años",
+    "objetivos": [
+      "Comprender los 17 ODS de la ONU",
+      "Identificar problemas ambientales locales",
+      "Desarrollar proyectos sostenibles básicos"
+    ],
+    "contenido": [
+      "Introducción al desarrollo sostenible",
+      "Objetivos de Desarrollo Sostenible",
+      "Cambio climático y jóvenes",
+      "Consumo responsable",
+      "Proyecto final: Iniciativa local"
+    ],
+    "instructor": "Green Dream Academy",
+    "precio": "Gratuito",
+    "certificacion": true,
+    "prerequisitos": "Ninguno",
+    "idiomas": ["Español"],
+    "url": "https://greendream.org/cursos/fundamentos-sostenibilidad",
+    "tags": ["sostenibilidad", "ODS", "principiantes", "online", "gratuito"]
+  },
+  {
+    "id": "curso_002",
+    "titulo": "Energías Renovables: Del Concepto a la Acción",
+    "categoria": "Energía",
+    "descripcion": "Curso especializado en energías renovables donde los jóvenes aprenden sobre tecnologías limpias y desarrollan proyectos de energía sostenible.",
+    "modalidad": "Híbrido",
+    "duracion": "8 semanas",
+    "nivel": "Intermedio",
+    "edad_objetivo": "18-30 años",
+    "objetivos": [
+      "Dominar conceptos de energías renovables",
+      "Diseñar sistemas solares básicos",
+      "Analizar viabilidad de proyectos energéticos"
+    ],
+    "contenido": [
+      "Tipos de energías renovables",
+      "Tecnología solar fotovoltaica",
+      "Energía eólica y mini-eólica",
+      "Eficiencia energética",
+      "Financiamiento de proyectos verdes",
+      "Proyecto: Mini instalación solar"
+    ],
+    "instructor": "Ing. María González - Green Dream",
+    "precio": "50 USD",
+    "certificacion": true,
+    "prerequisitos": "Conocimientos básicos de sostenibilidad",
+    "idiomas": ["Español", "Inglés"],
+    "url": "https://greendream.org/cursos/energias-renovables",
+    "tags": ["energía", "renovables", "solar", "tecnología", "proyectos"]
+  },
+  {
+    "id": "curso_003",
+    "titulo": "Agricultura Urbana y Seguridad Alimentaria",
+    "categoria": "Agricultura",
+    "descripcion": "Aprende técnicas de agricultura urbana, huertos verticales y sistemas de producción sostenible de alimentos en espacios reducidos.",
+    "modalidad": "Presencial",
+    "duracion": "4 semanas",
+    "nivel": "Principiante",
+    "edad_objetivo": "15-28 años",
+    "objetivos": [
+      "Crear huertos urbanos productivos",
+      "Implementar técnicas de compostaje",
+      "Promover seguridad alimentaria local"
+    ],
+    "contenido": [
+      "Principios de agricultura urbana",
+      "Huertos verticales y hidroponía",
+      "Compostaje y manejo de residuos",
+      "Plantas nativas y adaptadas",
+      "Comercialización de productos"
+    ],
+    "instructor": "Centro de Agricultura Green Dream",
+    "precio": "30 USD",
+    "certificacion": true,
+    "prerequisitos": "Ninguno",
+    "idiomas": ["Español"],
+    "url": "https://greendream.org/cursos/agricultura-urbana",
+    "tags": ["agricultura", "urbana", "alimentos", "huertos", "compostaje"]
+  }
+]
