@@ -9,5 +9,5 @@ azure-ai-inference==1.0.0b4
 azure-core==1.29.5
 
 # Procesamiento de datos
-numpy==1.24.3
+# (Removed numpy pin to avoid build-from-source issues on some PaaS builders)
 gunicorn>=20.1.0
