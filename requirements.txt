@@ -6,7 +6,7 @@ python-dotenv==1.0.0
 
 # Azure AI Foundry
 azure-ai-inference==1.0.0b4
-azure-core==1.29.5
+azure-core>=1.30.0,<2.0.0
 
 # Procesamiento de datos
 # (Removed numpy pin to avoid build-from-source issues on some PaaS builders)
