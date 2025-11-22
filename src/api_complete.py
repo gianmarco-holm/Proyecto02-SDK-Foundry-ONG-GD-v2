@@ -1,6 +1,6 @@
 
 # green_dream_api.py - API REST para integrar con página web
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import sys
@@ -74,6 +74,25 @@ def debug_info():
         "assistant_initialized": assistant_initialized,
         "assistant_error": assistant_init_error
     })
+
+
+# Servir la página estática principal (website.html) desde la raíz del proyecto
+@app.route('/')
+def serve_root():
+    try:
+        root_dir = os.path.join(os.path.dirname(__file__), '..')
+        return send_from_directory(root_dir, 'website.html')
+    except Exception:
+        return "Not Found", 404
+
+
+@app.route('/website.html')
+def serve_website():
+    try:
+        root_dir = os.path.join(os.path.dirname(__file__), '..')
+        return send_from_directory(root_dir, 'website.html')
+    except Exception:
+        return "Not Found", 404
 
 if __name__ == '__main__':
     # Ejecutar en modo desarrollo
