@@ -3,14 +3,19 @@ import os
 from dotenv import load_dotenv
 from azure.ai.inference import ChatCompletionsClient
 from azure.core.credentials import AzureKeyCredential
+import logging
 
-# Cargar configuración desde config/.env
-load_dotenv(os.path.join(os.path.dirname(__file__), '..', 'config', '.env'))
+# Intentar leer variables del entorno primero; si no existen, cargar config/.env
+env_endpoint = os.getenv("AZURE_AI_ENDPOINT")
+env_key = os.getenv("AZURE_AI_KEY")
 
-API_KEY = os.getenv("AZURE_AI_KEY")
-ENDPOINT = os.getenv("AZURE_AI_ENDPOINT")
+if not env_endpoint or not env_key:
+    # Intentar cargar archivo config/.env como respaldo (útil en desarrollo)
+    load_dotenv(os.path.join(os.path.dirname(__file__), '..', 'config', '.env'))
 
-# Eliminar comillas envolventes si existen (ej. "https://..." en .env)
+API_KEY = env_key or os.getenv("AZURE_AI_KEY")
+ENDPOINT = env_endpoint or os.getenv("AZURE_AI_ENDPOINT")
+
 def _strip_quotes(val: str | None) -> str | None:
     if not val:
         return val
@@ -19,14 +24,16 @@ def _strip_quotes(val: str | None) -> str | None:
 API_KEY = _strip_quotes(API_KEY)
 ENDPOINT = _strip_quotes(ENDPOINT)
 
+# Por seguridad, no fallar en la importación: si faltan las variables, exponer client=None
 if not API_KEY or not ENDPOINT:
-    raise ValueError("Debes configurar AZURE_AI_KEY y AZURE_AI_ENDPOINT en tu archivo config/.env")
+    logging.warning("AZURE_AI_KEY o AZURE_AI_ENDPOINT no configurados. El cliente de Azure no estará disponible hasta configurar las variables de entorno.")
+    client = None
+else:
+    # Normalizar endpoint si contiene /api/projects/
+    if "/api/projects/" in ENDPOINT:
+        ENDPOINT = ENDPOINT.split("/api/projects/")[0]
 
-# Si el endpoint vino con /api/projects/... lo reducimos al base resource
-if "/api/projects/" in ENDPOINT:
-    ENDPOINT = ENDPOINT.split("/api/projects/")[0]
-
-client = ChatCompletionsClient(
-    endpoint=ENDPOINT,
-    credential=AzureKeyCredential(API_KEY)
-)
+    client = ChatCompletionsClient(
+        endpoint=ENDPOINT,
+        credential=AzureKeyCredential(API_KEY)
+    )
