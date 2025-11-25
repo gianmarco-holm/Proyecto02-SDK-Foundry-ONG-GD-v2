@@ -1,6 +1,6 @@
 
 # green_dream_api.py - API REST para integrar con página web
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import sys
@@ -76,23 +76,14 @@ def debug_info():
     })
 
 
-# Servir la página estática principal (website.html) desde la raíz del proyecto
 @app.route('/')
-def serve_root():
-    try:
-        root_dir = os.path.join(os.path.dirname(__file__), '..')
-        return send_from_directory(root_dir, 'website.html')
-    except Exception:
-        return "Not Found", 404
-
-
-@app.route('/website.html')
-def serve_website():
-    try:
-        root_dir = os.path.join(os.path.dirname(__file__), '..')
-        return send_from_directory(root_dir, 'website.html')
-    except Exception:
-        return "Not Found", 404
+def index():
+    """Raíz: información mínima de la API (sin servir archivos estáticos)."""
+    return jsonify({
+        "service": "Green Dream Chat API",
+        "message": "API only — use /api/* endpoints. The static website is not served here.",
+        "endpoints": ["/api/health", "/api/chat", "/api/debug"]
+    })
 
 if __name__ == '__main__':
     # Ejecutar en modo desarrollo
