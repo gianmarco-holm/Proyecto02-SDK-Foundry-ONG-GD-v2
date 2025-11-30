@@ -1,266 +1,143 @@
 # 🌱 Green Dream RAG Assistant
 
-Sistema de asistente virtual inteligente para **Green Dream ONG**, una organización dedicada al desarrollo sostenible para jóvenes. Utiliza tecnología RAG (Retrieval-Augmented Generation) con Azure AI Foundry para proporcionar recomendaciones personalizadas sobre cursos, artículos y recursos de sostenibilidad.
+Servicio backend (API) para la integración del asistente virtual de Green Dream ONG.
+Este proyecto implementa un asistente RAG (Retrieval-Augmented Generation) que combina búsqueda en una base de conocimiento local con un modelo de Azure AI Foundry.
 
-## 🎯 Características Principales
+**Resumen rápido:**
 
-- **🤖 Asistente IA Especializado**: Conocimiento específico de Green Dream ONG
-- **📚 Base de Conocimiento RAG**: Búsqueda inteligente en cursos, artículos y revistas
-- **🌐 Interfaz Web Moderna**: Página web responsive con chat integrado
-- **⚡ API REST**: Endpoints listos para integración
-- **🔗 Azure AI Foundry**: Powered by GPT-4o
+- **Qué es:** API REST que responde consultas de chat enriquecidas con contexto RAG.
+- **Objetivo:** Servir como backend para incrustar un chat en una página web externa.
+- **Tecnologías:** Python, Flask, Azure AI Foundry, Docker, Gunicorn.
 
-## 🏗️ Arquitectura del Proyecto
+## **Arquitectura**
 
-```
-green-dream-assistant/
-├── 📁 src/                     # Código fuente
-│   ├── api_chat.py            # API de chat principal (puerto 5001)
-│   ├── api_complete.py        # API completa con RAG (puerto 5000)
-│   ├── assistant_rag.py       # Asistente con RAG
-│   ├── assistant.py           # Asistente base
-│   ├── chat_client.py         # Cliente Azure AI Foundry
-│   ├── rag_system.py          # Sistema de búsqueda RAG
-│   └── web_server.py          # Servidor HTTP (puerto 8080)
-├── 📁 knowledge_base/         # Base de conocimiento
-│   ├── articulos.json         # Artículos de sostenibilidad
-│   ├── cursos.json           # Cursos disponibles
-│   └── revistas.json         # Revistas especializadas
-├── 📁 config/                 # Configuración
-│   └── .env                  # Variables de entorno
-├── 📁 docs/                   # Documentación
-├── 🌐 website.html           # Página web principal
-├── 📋 main.ipynb             # Notebook de desarrollo
-├── 📦 requirements.txt       # Dependencias Python
-└── 📖 README.md             # Este archivo
+```sh
+repo-root/
+├── src/                  # Código fuente
+│   ├── api_complete.py   # App Flask (entrypoint: `app`)
+│   ├── assistant_rag.py  # Lógica del asistente + RAG
+│   ├── chat_client.py    # Cliente Azure AI Foundry (lee AZURE_AI_* desde env o config/.env)
+│   └── rag_system.py     # Carga y búsqueda en `knowledge_base/`
+├── knowledge_base/       # JSON con cursos, artículos y revistas
+├── config/               # Configuración local (ej.: `config/.env.example`)
+├── notebooks/            # Notebooks de prueba (p. ej. `test_api.ipynb`)
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
 ```
 
-## 🚀 Instalación y Configuración
+## **Scripts para desarrolladores**
 
-### 1. **Prerrequisitos**
-- Python 3.8 o superior
-- Cuenta de Azure con acceso a Azure AI Foundry
-- Git (opcional)
+Se han añadido scripts PowerShell útiles para arrancar y detener el servicio con Docker Compose desde Windows.
 
-### 2. **Clonar el Repositorio**
-```bash
+- `scripts/start.ps1` — copia `config/.env.example` a `config/.env` si no existe, opcionalmente reconstruye las imágenes y levanta los servicios.
+  - Uso básico:
+
+```powershell
+# Desde la raíz del repositorio
+.\scripts\start.ps1
+```
+
+  - Forzar reconstrucción de imágenes (opcional):
+
+```powershell
+.\scripts\start.ps1 -Rebuild
+```
+
+  - Qué hace el script:
+    - Si `config/.env` no existe, lo crea a partir de `config/.env.example`.
+    - (Opcional) `-Rebuild` ejecuta `docker compose build --no-cache`.
+    - Ejecuta `docker compose up -d` y comprueba el endpoint `/api/health`.
+
+- `scripts/stop.ps1` — detiene y elimina los servicios levantados por Docker Compose:
+
+```powershell
+.\scripts\stop.ps1
+```
+
+Notas:
+
+- Si PowerShell restringe la ejecución de scripts, puedes habilitar temporalmente la ejecución con (ejecutar como administrador):
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+```
+
+- Asegúrate de editar `config/.env` con tus credenciales antes de ejecutar `start.ps1` si el script no las creó automáticamente.
+
+## **Requisitos**
+
+- **Docker** y **docker-compose** (recomendado para despliegue).
+- Python 3.8+ (solo si ejecutas localmente sin Docker).
+
+## **Instalación (local, sin Docker)**
+
+- Clona el repositorio y crea un entorno virtual si lo deseas:
+
+```powershell
 git clone <tu-repositorio>
-cd green-dream-assistant
-```
-
-### 3. **Crear Entorno Virtual**
-```bash
-# Windows
+cd Proyecto02-SDK-Foundry-ONG-GD-v2
 python -m venv .venv
-.venv\Scripts\activate
-
-# Linux/Mac
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 4. **Instalar Dependencias**
-```bash
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-### 5. **Configurar Azure AI Foundry**
+## **Variables de entorno / Configuración**
 
-1. **Crear recursos en Azure Portal:**
-   - Azure AI Foundry Project
-   - Obtener API Key y Endpoint
+- Archivo de ejemplo: `config/.env.example` (no contiene claves reales).
+- Variables principales:
+  - `AZURE_AI_ENDPOINT`: Endpoint de Azure AI Foundry.
+  - `AZURE_AI_KEY`: API Key de Azure AI Foundry.
 
-2. **Configurar variables de entorno:**
-   ```bash
-   # Editar config/.env
-   AZURE_AI_ENDPOINT="https://tu-proyecto.services.ai.azure.com/models"
-   AZURE_AI_KEY="tu-api-key-aqui"
-   ```
+- Para desarrollo copia y edita:
 
-## 🎮 Uso del Sistema
-
-### **Opción 1: Aplicación Web Completa (Recomendado)**
-
-1. **Iniciar el servidor web:**
-   ```bash
-   python src/web_server.py
-   ```
-
-2. **Iniciar la API de chat:**
-   ```bash
-   python src/api_chat.py
-   ```
-
-3. **Abrir en navegador:**
-   ```
-   http://localhost:8080/website.html
-   ```
-
-### **Opción 2: Solo API**
-
-```bash
-# API simple (recomendada)
-python src/api_chat.py
-
-# API con RAG completo
-python src/api_complete.py
+```powershell
+Copy-Item .\config\.env.example .\config\.env
+notepad .\config\.env
+# Rellena AZURE_AI_ENDPOINT y AZURE_AI_KEY
 ```
 
-### **Opción 3: Jupyter Notebook**
+> Nota: NO subir `config/.env` con claves reales al repositorio. Usa `config/.env.example` como plantilla.
 
-```bash
-jupyter notebook main.ipynb
+## **Despliegue con Docker Compose (recomendado)**
+
+- Construir y levantar el servicio API:
+
+```powershell
+# Desde la raíz del repo
+docker compose build --no-cache
+docker compose up -d
 ```
 
-## 🔌 API Endpoints
+- Verificar estado de la API:
 
-### **Chat Principal**
-```http
-POST http://localhost:5001/api/chat
-Content-Type: application/json
-
-{
-  "message": "¿Qué cursos me recomendarías para aprender sobre energías renovables?"
-}
+```powershell
+# Health check
+Invoke-RestMethod http://localhost:5001/api/health
+# Ver logs
+docker compose logs -f api
 ```
 
-**Respuesta:**
-```json
-{
-  "success": true,
-  "response": "Te recomiendo estos cursos de Green Dream...",
-  "source": "Green Dream Simple API"
-}
-```
+## **Uso de la API**
 
-### **Health Check**
-```http
-GET http://localhost:5001/api/health
-```
+- Endpoint principal: `POST http://localhost:5001/api/chat`
+- Health check: `GET http://localhost:5001/api/health`
 
-## 💡 Ejemplos de Uso
+- Ejemplo de petición (Python):
 
-### **Consultas de Ejemplo:**
-- "Hola, soy estudiante universitario. ¿Qué cursos tienes?"
-- "Me interesa aprender sobre sostenibilidad ambiental"
-- "¿Qué recomiendas para energías renovables?"
-- "Cuéntame sobre los programas de Green Dream"
-- "Quiero artículos sobre cambio climático"
-
-### **Uso Programático:**
 ```python
 import requests
 
-# Enviar mensaje al asistente
-response = requests.post(
-    "http://localhost:5001/api/chat",
-    json={"message": "¿Qué cursos ofrecen?"}
-)
-
-data = response.json()
-print(data["response"])
+resp = requests.post('http://localhost:5001/api/chat', json={"message": "¿Qué cursos recomiendas sobre energías renovables?"})
+data = resp.json()
+print(data.get('response'))
 ```
 
-## 🛠️ Desarrollo y Personalización
+La respuesta JSON contiene al menos las claves `success`, `response` (texto) y `source`.
 
-### **Agregar Contenido a la Base de Conocimiento:**
+## **Notebook de prueba**
 
-1. **Editar archivos JSON en `knowledge_base/`:**
-   ```json
-   // knowledge_base/cursos.json
-   {
-     "titulo": "Nuevo Curso de Sostenibilidad",
-     "categoria": "Ambiental",
-     "precio": "$150",
-     "duracion": "6 semanas",
-     // ... más campos
-   }
-   ```
-
-2. **Reiniciar la API para cargar el nuevo contenido**
-
-### **Personalizar el Asistente:**
-
-Editar `src/assistant_rag.py`:
-```python
-self.system_prompt = """Tu nuevo prompt personalizado..."""
-```
-
-### **Modificar la Interfaz Web:**
-
-Editar `website.html` para cambiar:
-- Colores y estilos
-- Contenido de la página
-- Comportamiento del chat
-
-## 🔧 Troubleshooting
-
-### **Problemas Comunes:**
-
-1. **Error de conexión a Azure:**
-   - Verificar `config/.env`
-   - Comprobar conectividad a internet
-   - Validar API Key y Endpoint
-
-2. **Puerto ocupado:**
-   - Cambiar puerto en el código
-   - Matar procesos: `taskkill /F /IM python.exe` (Windows)
-
-3. **Módulos no encontrados:**
-   - Activar entorno virtual
-   - Reinstalar dependencias: `pip install -r requirements.txt`
-
-4. **Chat no responde:**
-   - Verificar que ambos servidores estén corriendo
-   - Revisar console del navegador (F12)
-   - Comprobar endpoint en `website.html`
-
-### **Logs y Debugging:**
-
-```bash
-# Ver logs detallados
-python src/api_chat.py --debug
-
-# Verificar estado de la API
-curl http://localhost:5001/api/health
-```
-
-## 📈 Roadmap y Mejoras Futuras
-
-- [ ] **Autenticación de usuarios**
-- [ ] **Base de datos vectorial (Pinecone/Chroma)**
-- [ ] **Búsqueda semántica avanzada**
-- [ ] **Análisis de sentimientos**
-- [ ] **Integración con calendarios**
-- [ ] **Notificaciones push**
-- [ ] **Dashboard de administración**
-- [ ] **API de estadísticas**
-
-## 🤝 Contribuir
-
-1. Fork del proyecto
-2. Crear feature branch (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit cambios (`git commit -am 'Agregar nueva funcionalidad'`)
-4. Push a la branch (`git push origin feature/nueva-funcionalidad`)
-5. Crear Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
-
-## 👥 Equipo
-
-- **Desarrollado para**: Green Dream ONG
-- **Tecnología**: Azure AI Foundry + Flask + HTML/CSS/JS
-- **Modelo IA**: GPT-4o
-
-## 📞 Soporte
-
-Para problemas técnicos o consultas:
-- 📧 **Email**: soporte@greendream.org
-- 🐛 **Issues**: [GitHub Issues](https://github.com/tu-repo/issues)
-- 📖 **Documentación**: Ver carpeta `docs/`
-
----
-
-**🌱 Green Dream ONG - Construyendo un futuro sostenible con tecnología innovadora**
+- Ruta: `notebooks/test_api.ipynb`.
+- Objetivo: comprobar `/api/health` y enviar un POST de ejemplo a `/api/chat`.
+- Uso rápido (desde Jupyter): abre el notebook y ejecuta las celdas en orden. El notebook detecta automáticamente `localhost` o `host.docker.internal`.

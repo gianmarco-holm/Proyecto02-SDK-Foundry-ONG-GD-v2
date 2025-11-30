@@ -1,0 +1,15 @@
+# Ignorar archivos locales y de entorno
+.git
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+config/.env
+*.egg-info/
+*.log
+*.sqlite3
+dist/
+build/
