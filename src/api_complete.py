@@ -51,6 +51,29 @@ def chat():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
+
+@app.route('/api/welcome', methods=['GET'])
+def welcome():
+    """Endpoint que devuelve el saludo inicial del asistente (si existe).
+
+    Devuelve el saludo y lo marca como consumido para que se entregue solo una vez.
+    """
+    try:
+        if asistente is None:
+            return jsonify({"success": False, "error": "Asistente no inicializado"}), 500
+
+        # Asistente puede tener un método que devuelva el saludo inicial y lo quite
+        saludo = None
+        if hasattr(asistente, 'pop_initial_greeting'):
+            saludo = asistente.pop_initial_greeting()
+
+        if saludo:
+            return jsonify({"success": True, "welcome": saludo}), 200
+        else:
+            return jsonify({"success": False, "welcome": None}), 204
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
 @app.route('/api/health', methods=['GET'])
 def health():
     """Endpoint para verificar que la API está funcionando"""

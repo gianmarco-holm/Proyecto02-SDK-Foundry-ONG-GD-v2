@@ -1,3 +1,4 @@
+
 # chat_client.py - Cliente de Azure AI Foundry
 import os
 from dotenv import load_dotenv

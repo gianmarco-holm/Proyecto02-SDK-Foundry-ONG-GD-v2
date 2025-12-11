@@ -6,29 +6,44 @@ from rag_system import GreenDreamRAG
 
 class AsistenteGreenDreamRAG:
     def __init__(self):
-        # Sistema prompt especializado para Green Dream
-        self.system_prompt = """Eres un asistente experto de Green Dream, una ONG dedicada al desarrollo sostenible para jóvenes.
+        # Sistema prompt especializado para Green Dream (más explícito)
+        # Nota: este prompt fuerza al modelo a afirmar que conoce la base de Green Dream
+        # y dar recomendaciones aunque no haya coincidencias exactas en el contexto RAG.
+        self.system_prompt = (
+            "Eres el asistente oficial de Green Dream — una ONG que promueve\n"
+            "el desarrollo sostenible. Tu identidad y rol son claros: actúas como\n"
+            "representante del proyecto, conoces la base de recursos de Green Dream\n"
+            "(cursos, artículos y revistas) y debes usar esa información siempre que\n"
+            "sea relevante.\n\n"
+            "Reglas de comportamiento (obligatorias):\n"
+            "1) Afirma que conoces recursos de Green Dream y que puedes ayudar.\n"
+            "2) Si el contexto RAG contiene documentos relevantes, cítalos y proporciona\n"
+            "   enlaces y detalles concretos.\n"
+            "3) Si no hay documentos exactos en el contexto RAG, no digas \"no tengo\n"
+            "   información\". En su lugar, ofrece recomendaciones plausibles, basadas\n"
+            "   en la misión y recursos típicos de una ONG de sostenibilidad, y sugiere\n"
+            "   cómo obtener información específica (por ejemplo, solicitar más\n"
+            "   detalles para buscar en la base o pedir al usuario que consulte la web).\n"
+            "4) Siempre muestra tono amable, práctico y orientado a la acción. Incluye\n"
+            "   enlaces cuando los tengas y pasos concretos para seguir.\n\n"
+            "Objetivos:\n"
+            "- Recomendar cursos, artículos y revistas de Green Dream.\n"
+            "- Adaptar las recomendaciones según perfil, intereses y nivel.\n"
+            "- Proponer próximos pasos (inscribirse, contactar, voluntariado) cuando aplique.\n"
+        )
 
-        Tu misión es:
-        - Recomendar cursos, artículos y revistas específicos de Green Dream
-        - Adaptar las recomendaciones al perfil, intereses y nivel de cada joven
-        - Proporcionar información práctica y motivacional
-        - Incluir siempre URLs y detalles específicos cuando estén disponibles
-        - Fomentar la participación activa en sostenibilidad
+        # Inicializa el historial con el mensaje del sistema y un saludo del asistente
+        self.messages = [SystemMessage(content=self.system_prompt)]
 
-        Características de tu personalidad:
-        - Entusiasta y motivador
-        - Conocedor profundo de Green Dream
-        - Orientado a la acción
-        - Empático con las necesidades de los jóvenes
-        - Siempre propositivo y constructivo
-
-        IMPORTANTE: Siempre usa la información específica de Green Dream que se te proporciona para hacer recomendaciones precisas y personalizadas.
-        """
-
-        self.messages = [
-            SystemMessage(content=self.system_prompt)
-        ]  # Inicializa el historial con el mensaje del sistema
+        # Mensaje inicial del asistente: muestra confianza en la base de Green Dream
+        greeting = (
+            "¡Hola! 🌟 Soy el asistente virtual de Green Dream. "
+            "Conozco nuestra base de recursos (cursos, artículos y revistas) y estoy aquí para ayudarte a encontrar formación, proyectos y formas de colaborar. "
+            "Antes de recomendarte cursos, cuéntame: ¿sobre qué tema o tipo de curso te gustaría aprender? (por ejemplo: energía renovable, economía circular, reciclaje doméstico, agricultura urbana, etc.)"
+        )
+        self.messages.append(AssistantMessage(content=greeting))
+        # Log útil para desarrollo: ver el saludo inicial en los logs del servidor
+        print("🌱 Saludo inicial del asistente:", greeting)
         self.rag_system = GreenDreamRAG()
 
     def preguntar_con_rag(
@@ -51,13 +66,29 @@ class AsistenteGreenDreamRAG:
         # 1. Obtener contexto relevante de la base de conocimiento
         contexto_rag = self.rag_system.get_recommendations_context(pregunta)
 
-        # 2. Construir prompt enriquecido con contexto
+        # 1.a Añadir resumen de lo que contiene la base de conocimiento para que el
+        # modelo sepa cuántos recursos hay y de qué tipo (esto ayuda cuando el
+        # contexto RAG está vacío o es corto).
+        try:
+            total_docs = len(self.rag_system.documents)
+            cursos = len([d for d in self.rag_system.documents if d.get("type") == "curso"]) if total_docs else 0
+            articulos = len([d for d in self.rag_system.documents if d.get("type") == "articulo"]) if total_docs else 0
+            revistas = len([d for d in self.rag_system.documents if d.get("type") == "revista"]) if total_docs else 0
+            resumen_base = (
+                f"BASE_DE_CONOCIMIENTO: total={total_docs}; cursos={cursos}; articulos={articulos}; revistas={revistas}."
+            )
+        except Exception:
+            resumen_base = "BASE_DE_CONOCIMIENTO: información de recursos no disponible." 
+
+        # 2. Construir prompt enriquecido con contexto y el resumen
         prompt_enriquecido = f"""
         {contexto_rag}
 
+        {resumen_base}
+
         CONSULTA DEL JOVEN: {pregunta}
 
-        Por favor, proporciona una respuesta personalizada usando la información específica de Green Dream mostrada arriba.
+        Por favor, proporciona una respuesta personalizada usando la información específica de Green Dream mostrada arriba. Si no hay coincidencias exactas en la base, ofrece recomendaciones prácticas y pasos siguientes en lugar de indicar que no tienes información.
         """
 
         # 3. Construir mensajes para la petición
@@ -182,6 +213,27 @@ class AsistenteGreenDreamRAG:
         """Muestra el historial de conversación"""
         print("\n📝 **HISTORIAL DE CONVERSACIÓN GREEN DREAM:**")
         print("=" * 50)
+
+    def pop_initial_greeting(self):
+        """Devuelve y elimina el saludo inicial del asistente (si existe).
+
+        Esto permite que la API entregue el saludo una sola vez al frontend al
+        iniciar la conversación.
+        """
+        for i, mensaje in enumerate(self.messages):
+            # comprobamos por tipo AssistantMessage importado arriba
+            try:
+                from azure.ai.inference.models import AssistantMessage as _AM
+            except Exception:
+                _AM = None
+
+            if _AM is not None and isinstance(mensaje, _AM):
+                saludo = getattr(mensaje, "content", None)
+                # eliminar del historial para que no se vuelva a enviar
+                self.messages.pop(i)
+                return saludo
+
+        return None
         for i, mensaje in enumerate(self.messages):
             tipo = type(mensaje).__name__
             contenido = getattr(mensaje, "content", "")
