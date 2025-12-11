@@ -21,7 +21,7 @@ El objetivo es permitir a la ONG Green Dream integrar un asistente en su página
 Para que este proyecto funcione, debes crear un **proyecto y un modelo** en Azure AI Foundry y obtener:
 
 ```sh
-AZURE_AI_ENDPOINT
+AZURE_AI_ENDPOINT5
 AZURE_AI_KEY
 ```
 
