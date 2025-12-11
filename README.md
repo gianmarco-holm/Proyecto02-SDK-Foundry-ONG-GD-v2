@@ -2,6 +2,13 @@
 
 Backend y Chat Asistido por RAG para la ONG Green Dream
 
+## 👨🏻‍💻 Autor
+
+* **Nombre:** Gianmarco Holgado Murga
+* **Linkedin:** https://www.linkedin.com/in/gianmarco-holm/
+
+---
+
 Este proyecto implementa un **asistente conversacional inteligente** que combina:
 
 - **RAG (Retrieval-Augmented Generation)** con una base de conocimiento local.
